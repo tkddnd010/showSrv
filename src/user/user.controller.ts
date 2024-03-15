@@ -5,6 +5,7 @@ import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserInfo } from 'src/utils/userInfo.decorator';
 import { User } from './entities/user.entity';
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -22,6 +23,8 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
+  @ApiOperation({ summary: 'Get user profile' })
+  @ApiOkResponse({ description: 'User profile retrieved successfully.' })
   getProfile(@UserInfo() user: User) {
     return { profile: { name: user.name, point: user.point.balance } };
   }
